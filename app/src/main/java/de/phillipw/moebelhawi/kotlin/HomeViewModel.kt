@@ -1,7 +1,6 @@
 package de.phillipw.moebelhawi.kotlin
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,14 +19,21 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val loading: LiveData<ApiStatus>
         get() = _loading
 
-    val products = repository.products
+    val topSellers = repository.topSellers
+
+    val topRated = repository.topRated
 
 
 
-
-    fun getProduct(hdSort: String, q: String) {
+    fun loadTopSellers() {
         viewModelScope.launch {
-            repository.getProducts(hdSort,q)
+            repository.getTopSellers()
+        }
+    }
+
+    fun loadTopRated() {
+        viewModelScope.launch {
+            repository.getTopRated()
         }
     }
 }
