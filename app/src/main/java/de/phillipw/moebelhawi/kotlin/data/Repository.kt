@@ -11,18 +11,33 @@ class Repository(private val api: MöbelHawiApi) {
 
     private val key = BuildConfig.apiKey
 
-    private val _products = MutableLiveData<List<Product>>()
+    private val _topSellers = MutableLiveData<List<Product>>()
 
-    val products: LiveData<List<Product>>
-        get() = _products
+    private val _topRated = MutableLiveData<List<Product>>()
 
-    suspend fun getProducts(hdSort: String, q: String) {
+    val topSellers: LiveData<List<Product>>
+        get() = _topSellers
+
+    val topRated: LiveData<List<Product>>
+        get() = _topRated
+
+    suspend fun getTopSellers() {
         try {
-            val result = api.retrofitService.getProducts(
-                "home_depot", hdSort,q,key).products
-            _products.postValue(result)
+            val resultSellers = api.retrofitService.getProducts(
+                "home_depot","top_sellers","kitchen",key).products
+            _topSellers.postValue(resultSellers)
         } catch (e:Exception) {
             Log.e("Repo", "$e")
+        }
+    }
+
+    suspend fun getTopRated() {
+        try {
+            val resultRated = api.retrofitService.getProducts(
+                "home_depot","top_rated","furniture",key).products
+                _topRated.postValue(resultRated)
+        } catch (e:Exception) {
+            Log.e("Repo","$e")
         }
     }
 }
