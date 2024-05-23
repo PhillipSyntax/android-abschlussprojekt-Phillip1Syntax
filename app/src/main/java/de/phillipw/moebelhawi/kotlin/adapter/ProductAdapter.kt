@@ -28,12 +28,13 @@ class ProductAdapter (
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val product = dataset[position]
-        holder.binding.ivProductImage.load(product.thumbnails.lastOrNull()) {
 
+        val thumbnailUrl = product.thumbnails.firstOrNull()?.firstOrNull()
+
+        if (thumbnailUrl != null){
+        holder.binding.ivProductImage.load(thumbnailUrl)
         }
-
         holder.binding.tvProductName.text = product.title
-        holder.binding.tvPrice.text = product.price.toString() // Diese Zeile muss geändert werden
-
+        holder.binding.tvPrice.text = String.format("%.2f €",product.price)
     }
 }
