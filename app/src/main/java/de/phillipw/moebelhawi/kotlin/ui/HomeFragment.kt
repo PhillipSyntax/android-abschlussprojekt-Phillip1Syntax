@@ -6,9 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import de.phillipw.moebelhawi.kotlin.HomeViewModel
 import de.phillipw.moebelhawi.kotlin.R
-import de.phillipw.moebelhawi.kotlin.adapter.ProductAdapter
+import de.phillipw.moebelhawi.kotlin.adapter.HomeAdapter
 import de.phillipw.moebelhawi.kotlin.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -32,11 +33,16 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.topSellers.observe(viewLifecycleOwner) { products ->
-            binding.rvTopSellers.adapter = ProductAdapter(products)
+            binding.rvTopSellers.adapter = HomeAdapter(products){
+                viewModel.setSelectedProduct(it)
+                findNavController().navigate(R.id.productDetailFragment)
+            }
         }
         viewModel.topRated.observe(viewLifecycleOwner) { products ->
-            binding.rvTopRated.adapter = ProductAdapter(products)
-
+            binding.rvTopRated.adapter = HomeAdapter(products){
+                viewModel.setSelectedProduct(it)
+                findNavController().navigate(R.id.productDetailFragment)
+            }
         }
     }
 }
