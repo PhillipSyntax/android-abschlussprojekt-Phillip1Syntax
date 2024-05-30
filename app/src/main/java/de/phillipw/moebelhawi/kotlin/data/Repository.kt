@@ -15,18 +15,26 @@ class Repository(private val api: MöbelHawiApi) {
 
     private val _topRated = MutableLiveData<List<Product>>()
 
+    private val _results = MutableLiveData<List<Product>>()
+
+    val results: LiveData<List<Product>>
+        get() = _results
+
     val topSellers: LiveData<List<Product>>
         get() = _topSellers
 
     val topRated: LiveData<List<Product>>
         get() = _topRated
 
+
+
     suspend fun getTopSellers() {
         try {
             val resultSellers = api.retrofitService.getProducts(
-                "home_depot","top_sellers","kitchen",key).products
+                "home_depot", "top_sellers", "kitchen", key
+            ).products
             _topSellers.postValue(resultSellers)
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             Log.e("Repo", "$e")
         }
     }
@@ -34,10 +42,24 @@ class Repository(private val api: MöbelHawiApi) {
     suspend fun getTopRated() {
         try {
             val resultRated = api.retrofitService.getProducts(
-                "home_depot","top_rated","furniture",key).products
-                _topRated.postValue(resultRated)
-        } catch (e:Exception) {
-            Log.e("Repo","$e")
+                "home_depot", "top_rated", "furniture", key
+            ).products
+            _topRated.postValue(resultRated)
+        } catch (e: Exception) {
+            Log.e("Repo", "$e")
         }
     }
+
+    suspend fun getResultSearch(query: String) {
+        try {
+            val resultSearch = api.retrofitService.searchProducts(
+                "home_depot", "best_match", query, key
+            ).products
+            _results.postValue(resultSearch)
+        } catch (e:Exception) {
+            Log.e("Repo", "$e")
+        }
+    }
+
+
 }
