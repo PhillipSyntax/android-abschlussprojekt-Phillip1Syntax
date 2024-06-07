@@ -42,6 +42,7 @@ interface MöbelHawiApiService {
         @Query("api_key") apiKey: String
     ):ProductResponse
 
+
 }
 object MöbelHawiApi {
     val retrofitService: MöbelHawiApiService by lazy { retrofit.create(MöbelHawiApiService::class.java) }
