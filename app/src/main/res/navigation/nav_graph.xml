@@ -9,5 +9,41 @@
         android:id="@+id/homeFragment"
         android:name="de.phillipw.moebelhawi.kotlin.ui.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="de.phillipw.moebelhawi.kotlin.ProductDetailFragment"
+        android:label="ProductDetailFragment" >
+        <argument
+            android:name="myTitle"
+            app:argType="string" />
+        <argument
+            android:name="myPrice"
+            app:argType="string" />
+        <argument
+            android:name="myPicture"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="de.phillipw.moebelhawi.kotlin.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/toListFragment"
+            app:destination="@id/productListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productListFragment"
+        android:name="de.phillipw.moebelhawi.kotlin.ProductListFragment"
+        android:label="fragment_product_list"
+        tools:layout="@layout/fragment_product_list" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
 </navigation>
