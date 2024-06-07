@@ -15,7 +15,7 @@
         android:id="@+id/advertising"
         android:layout_width="363dp"
         android:layout_height="116dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:src="@drawable/kuechen_sale_moebel_gradinger"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,9 +35,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_topSellers"
-        android:layout_width="0dp"
-        android:layout_height="160dp"
-        android:layout_marginTop="37dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,10 +62,10 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
         app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_topRated_name" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_topRated_name"
+        app:spanCount="2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
