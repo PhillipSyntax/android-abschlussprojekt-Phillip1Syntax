@@ -53,6 +53,9 @@ dependencies {
     implementation("androidx.datastore:datastore-core-android:1.1.1")
     implementation("androidx.webkit:webkit:1.11.0")
     implementation("com.google.ai.client.generativeai:generativeai:0.4.0")
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation(libs.mediation.test.suite)
+//    implementation(libs.mediation.test.suite) Was macht eine Test Suite in der Implementation ?
     val retrofitVersion = "2.9.0"
     val roomVersion = "2.6.0"
 
