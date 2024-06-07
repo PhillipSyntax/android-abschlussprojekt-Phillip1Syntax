@@ -25,9 +25,7 @@ class HomeAdapter (
         return ItemViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return dataset.size
-    }
+
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val product = dataset[position]
@@ -35,14 +33,18 @@ class HomeAdapter (
         val thumbnailUrl = product.thumbnails.firstOrNull()?.firstOrNull()  // Hier wird eine Liste an Strings angezeigt ?! Er übergibt im Detail alle Images
 
         if (thumbnailUrl != null){
-        holder.binding.ivProductImage.load(thumbnailUrl)
+        holder.binding.ivHomeImage.load(thumbnailUrl)
         }
         holder.binding.tvProductName.text = product.title
         holder.binding.tvPrice.text = String.format("%.2f €",product.price)
 
-        holder.binding.ivProductImage.setOnClickListener {
+        holder.binding.ivHomeImage.setOnClickListener {
             onClick(product)
 
         }
+    }
+
+    override fun getItemCount(): Int {
+        return dataset.size
     }
 }
