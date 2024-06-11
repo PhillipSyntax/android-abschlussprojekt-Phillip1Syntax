@@ -6,8 +6,11 @@ import androidx.room.Relation
 data class ShoppingItemWithProductDetails (
 
     @Embedded
-   val cartitem: ShoppingCartItem,
+   val cartItem: ShoppingCartItem,
 
-    @Relation(parentColumn = "product_id", entityColumn = "product_id")
+    @Relation(
+        parentColumn = "product_id",
+        entityColumn = "product_id"
+    )
     val product: Product
 )
