@@ -17,39 +17,27 @@ class Repository(private val api: MöbelHawiApi, private val database: MöbelHaw
 
     private val _topRated = MutableLiveData<List<Product>>()
 
-    private val _results = MutableLiveData<List<Product>>()
+change     private val _searchResultProducts = MutableLiveData<List<Product>>()
 
-    private val _categorieResults = MutableLiveData<List<Product>>()
+    private val _categoriesResults = MutableLiveData<List<Product>>()
 
-
-    private val _items = database.itemCartDao.getCartItems()
-
-    private val _products = database.productDao.getProducts()
+     val shoppingCartItems = database.itemCartDao.getCartItems()
 
 
 
-    val categorieResults: LiveData<List<Product>>
-        get() = _categorieResults
 
-    val results: LiveData<List<Product>>
-        get() = _results
+    val categoryResults: LiveData<List<Product>>
+        get() = _categoriesResults
 
-    val topSellers: LiveData<List<Product>>
+    val searchResultProducts: LiveData<List<Product>>
+        get() = _searchResultProducts
+
+    val topSellerProducts: LiveData<List<Product>>
         get() = _topSellers
 
-    val topRated: LiveData<List<Product>>
+    val topRatedProducts: LiveData<List<Product>>
         get() = _topRated
 
-    val items: LiveData<List<ShoppingCartItem>>
-        get() = _items
-
-    val products: LiveData<List<Product>>
-        get() = _products
-
-
-    fun getAllProducts(): LiveData<List<Product>> {
-        return database.productDao.getProducts()
-    }
 
     suspend fun getTopSellers() {
         try {
@@ -73,23 +61,23 @@ class Repository(private val api: MöbelHawiApi, private val database: MöbelHaw
         }
     }
 
-    suspend fun getResultSearch(query: String) {
+    suspend fun getProductsBySearchQuery(query: String) {
         try {
             val resultSearch = api.retrofitService.getProducts(
                 "home_depot", "best_match", query, key
             ).products
-            _results.postValue(resultSearch)
+            _searchResultProducts.postValue(resultSearch)
         } catch (e: Exception) {
             Log.e("Repo", "$e")
         }
     }
 
-    suspend fun getResultByCategorie(query: String) {
+    suspend fun getProductsByCategory(category: String) {
         try {
             val getResult = api.retrofitService.getProducts(
-                "home_depot", "best_match", query, key
+                "home_depot", "best_match", category, key
             ).products
-            _categorieResults.postValue(getResult)
+            _categoriesResults.postValue(getResult)
         } catch (e: Exception) {
             Log.e("Repo", "$e")
         }
@@ -99,15 +87,14 @@ class Repository(private val api: MöbelHawiApi, private val database: MöbelHaw
 
     fun getShoppingCartItems() {
         try {
-            val item =
-                items.value!! // Hinweis: Hier wird auf das LiveData-Objekt direkt zugegriffen.
+                shoppingCartItems.value!! // Hinweis: Hier wird auf das LiveData-Objekt direkt zugegriffen.
             database.itemCartDao.getCartItems()
         } catch (e: Exception) {
             Log.e("Repo", "$e")
         }
     }
 
-    suspend fun insertItems(shoppingCartItem: ShoppingCartItem) {
+    suspend fun insertShoppingCartItem(shoppingCartItem: ShoppingCartItem) {
         try {
             database.itemCartDao.insertCart(shoppingCartItem)
         } catch (e: Exception) {
@@ -130,26 +117,5 @@ class Repository(private val api: MöbelHawiApi, private val database: MöbelHaw
             Log.e("Repo", "Failed to update into databank $e")
         }
 
-    }
-
-    suspend fun fetchAndStoreProducts(query: String) {
-        try {
-            val products =
-                api.retrofitService.getProducts("home_depot", "best_match", query, key)
-                    .products.forEach { product ->
-                        database.productDao.insertProduct(product)
-                    }
-        } catch (e: Exception) {
-            Log.e("Repo", "Failed to fetch products from API: $e")
-
-        }
-    }
-
-    suspend fun addProductToShoppingCartItems(product: ShoppingCartItem) {
-        try {
-            database.itemCartDao.insertCart(product)
-        } catch (e: Exception) {
-            Log.e("Repo", "Failed to add products to ShoppingCart: $e")
-        }
     }
 }
