@@ -23,7 +23,7 @@ abstract class MöbelHawiDatabase : RoomDatabase(){
                 dbInstance = Room.databaseBuilder(
                     context.applicationContext,
                     MöbelHawiDatabase::class.java,
-                    "products_database"
+                    "moebelhawi_database"
                 ).build()
             }
             return dbInstance
