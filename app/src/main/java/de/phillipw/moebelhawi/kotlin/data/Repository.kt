@@ -17,7 +17,7 @@ class Repository(private val api: MöbelHawiApi, private val database: MöbelHaw
 
     private val _topRated = MutableLiveData<List<Product>>()
 
-change     private val _searchResultProducts = MutableLiveData<List<Product>>()
+     private val _searchResultProducts = MutableLiveData<List<Product>>()
 
     private val _categoriesResults = MutableLiveData<List<Product>>()
 
