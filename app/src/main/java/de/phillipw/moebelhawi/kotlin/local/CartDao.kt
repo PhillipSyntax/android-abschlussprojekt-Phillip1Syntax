@@ -16,7 +16,7 @@ interface CartDao {
     suspend fun insertCart(shoppingCartItem: ShoppingCartItem)
 
     @Update
-    suspend fun updateCart(shoppingCartItem: ShoppingCartItem) // Kann ein Update für Beide verwendet werden ?
+    suspend fun updateCart(shoppingCartItem: ShoppingCartItem)
 
     @Query("SELECT * FROM shopping_card_item")
     fun getCartItems(): LiveData<List<ShoppingCartItem>>
