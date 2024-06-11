@@ -3,14 +3,22 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.devtools.ksp")
+    id("androidx.room")
+
 }
 
-val apiKey : String = com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(rootDir,providers).getProperty("apiKey")
+val apiKey: String =
+    com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(rootDir, providers)
+        .getProperty("apiKey")
 
 
 android {
     namespace = "de.phillipw.moebelhawi.kotlin"
     compileSdk = 34
+    room{
+        schemaDirectory("$projectDir/schemas") // von mir erstellt
+    }
+
 
     defaultConfig {
         applicationId = "de.phillipw.moebelhawi.kotlin"
@@ -20,11 +28,13 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+
     }
 
     buildTypes {
         release {
-            buildConfigField("String","apiKey", apiKey)
+            buildConfigField("String", "apiKey", apiKey)
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -32,7 +42,7 @@ android {
             )
         }
         debug {
-            buildConfigField("String", "apiKey",apiKey)
+            buildConfigField("String", "apiKey", apiKey)
         }
     }
     compileOptions {
@@ -54,7 +64,6 @@ dependencies {
     implementation("androidx.webkit:webkit:1.11.0")
     implementation("com.google.ai.client.generativeai:generativeai:0.4.0")
     implementation("androidx.cardview:cardview:1.0.0")
-    implementation(libs.mediation.test.suite)
 //    implementation(libs.mediation.test.suite) Was macht eine Test Suite in der Implementation ?
     val retrofitVersion = "2.9.0"
     val roomVersion = "2.6.0"
@@ -68,6 +77,7 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
 
     //Retrofit und Moshi
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
