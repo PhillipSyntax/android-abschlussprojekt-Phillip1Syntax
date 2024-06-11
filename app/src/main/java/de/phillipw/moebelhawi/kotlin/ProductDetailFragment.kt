@@ -31,13 +31,15 @@ class ProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         viewModel.selectedProduct.observe(viewLifecycleOwner) { product ->
            if(product != null) {
                binding.tvTitleDetail.text = product.title
                binding.tvPriceDetail.text = String.format("%.2f €",product.price)
                loadProductImage(product)
+
+               binding.btnAddToCart.setOnClickListener{
+                   viewModel.addToShoppingCart(product)
+               }
            }
         }
     }
