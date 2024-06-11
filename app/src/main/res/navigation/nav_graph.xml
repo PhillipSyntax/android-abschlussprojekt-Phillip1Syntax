@@ -46,4 +46,9 @@
             android:name="title"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/shoppingCartFragment"
+        android:name="de.phillipw.moebelhawi.kotlin.ui.ShoppingCartFragment"
+        android:label="fragment_shopping_cart"
+        tools:layout="@layout/fragment_shopping_cart" />
 </navigation>
