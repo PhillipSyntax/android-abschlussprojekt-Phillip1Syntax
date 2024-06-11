@@ -26,7 +26,7 @@ class ProductListFragment : Fragment() {
 
         binding = FragmentProductListBinding.inflate(layoutInflater)
 
-        viewModel.loadByCategorie(args.title)
+        viewModel.loadByCategory(args.title)
 
         // Inflate the layout for this fragment
         return binding.root
@@ -36,7 +36,7 @@ class ProductListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.tvResults.text = args.title
-        viewModel.categorieResults.observe(viewLifecycleOwner) {
+        viewModel.categoryResults.observe(viewLifecycleOwner) {
             binding.rvProductlist.adapter = ProductListAdapter(it){
                 viewModel.setSelectedProduct(it)
                 findNavController().navigate(R.id.productDetailFragment)
