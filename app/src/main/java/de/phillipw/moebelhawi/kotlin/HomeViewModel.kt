@@ -53,7 +53,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         get() = _selectedProduct
 
 
-
     fun loadTopSellers() {
         viewModelScope.launch {
             repository.getTopSellers()
@@ -94,35 +93,45 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun addToShoppingCart(product: Product) {
 
-        val shoppingCartItem = ShoppingCartItem(0,product.productId,1, product.price)
+        val shoppingCartItem = product.thumbnails.firstOrNull()?.lastOrNull()
+            ?.let { ShoppingCartItem(0, product.productId, 1, product.price, product.title, it) }
         viewModelScope.launch {
-            repository.insertShoppingCartItem(shoppingCartItem)
+            if (shoppingCartItem != null) {
+                repository.insertShoppingCartItem(shoppingCartItem)
+            }
 
         }
     }
+
     fun deleteItemFromShoppingCart(shoppingCartItem: ShoppingCartItem) {
         viewModelScope.launch {
             repository.deleteItem(shoppingCartItem.id)
             updateCartTotal()
         }
     }
-        fun updateCartItem(item: ShoppingCartItem) {
-            viewModelScope.launch {
-                repository.updateItem(item)
 
-            }
+    fun updateCartItem(item: ShoppingCartItem) {
+        viewModelScope.launch {
+            repository.updateItem(item)
+
         }
+    }
+
     fun updateCartTotal() {
         viewModelScope.launch {
             repository.getShoppingCartItems()
         }
     }
+
     fun calculateTotalPrice() {
-        viewModelScope.launch {
-            val items = repository.getShoppingCartItems()
-            //Hier hänge ich fest
 
+        val cartItems = cartItems.value ?: emptyList()
+        var totalPrice = 0.0
+        for (item in cartItems) {
+            totalPrice += item.price * item.quantity
         }
-
+        _totalPrice.postValue(totalPrice)
     }
 }
+
+
