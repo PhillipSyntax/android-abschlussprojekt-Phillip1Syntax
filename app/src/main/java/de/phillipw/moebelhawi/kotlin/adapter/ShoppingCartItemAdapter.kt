@@ -3,8 +3,9 @@ package de.phillipw.moebelhawi.kotlin.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import de.phillipw.moebelhawi.kotlin.data.models.ShoppingCartItem
-import de.phillipw.moebelhawi.kotlin.databinding.ItemShoppingCardBinding
+import de.phillipw.moebelhawi.kotlin.databinding.ItemShoppingCartBinding
 
 class ShoppingCartItemAdapter (
 
@@ -15,12 +16,12 @@ class ShoppingCartItemAdapter (
 
 ): RecyclerView.Adapter<ShoppingCartItemAdapter.ItemViewHolder>() {
 
-    inner class ItemViewHolder(val binding: ItemShoppingCardBinding):RecyclerView.ViewHolder(binding.root)
+    inner class ItemViewHolder(val binding: ItemShoppingCartBinding):RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val context = parent.context
         val layoutInflater = LayoutInflater.from(context)
-        val binding = ItemShoppingCardBinding.inflate(layoutInflater,parent,false)
+        val binding = ItemShoppingCartBinding.inflate(layoutInflater,parent,false)
         return ItemViewHolder(binding)
     }
 
@@ -28,9 +29,8 @@ class ShoppingCartItemAdapter (
 
         val shoppingCartItem = dataset[position]
 
-
-        holder.binding.ivItemCart
-        holder.binding.tvProductidItem.text = shoppingCartItem.productId
+        holder.binding.ivItemCart.load(shoppingCartItem.imageUrl)
+        holder.binding.tvProductidItem.text = shoppingCartItem.title
         holder.binding.tvPriceItemCart.text = String.format("%.2f €",shoppingCartItem.price)
         holder.binding.tvQuantityItemCart.text = "${shoppingCartItem.quantity}x"
         holder.binding.btnDeleteFromCart.setOnClickListener {
