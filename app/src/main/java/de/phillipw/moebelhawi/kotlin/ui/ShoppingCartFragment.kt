@@ -33,15 +33,14 @@ class ShoppingCartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.cartItems.observe(viewLifecycleOwner) { shoppingCartItem ->
-            binding.rvItemlist.adapter = ShoppingCartItemAdapter(shoppingCartItem){
+            viewModel.calculateTotalPrice()
+            binding.rvItemlist.adapter = ShoppingCartItemAdapter(shoppingCartItem) {
                 viewModel.deleteItemFromShoppingCart(it)
-                viewModel.calculateTotalPrice()
-                val totalPrice = it.price + it.quantity
-                binding.tvTotalPrice.text = "Total Price: $totalPrice €"
                 viewModel.updateCartItem(it)
-            }//Hier weiß ich nicht genau, wie ich den Warenkorb aktualisieren kann
+            }
         }
-
-
+        viewModel.totalPrice.observe(viewLifecycleOwner) {totalPrice ->
+            binding.tvTotalPrice.text = "Total Price: %.2f €".format(totalPrice)
+        }
     }
 }
