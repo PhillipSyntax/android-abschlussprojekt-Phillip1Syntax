@@ -87,7 +87,6 @@ class Repository(private val api: MöbelHawiApi, private val database: MöbelHaw
 
     fun getShoppingCartItems() {
         try {
-                shoppingCartItems.value!! // Hinweis: Hier wird auf das LiveData-Objekt direkt zugegriffen.
             database.itemCartDao.getCartItems()
         } catch (e: Exception) {
             Log.e("Repo", "$e")
