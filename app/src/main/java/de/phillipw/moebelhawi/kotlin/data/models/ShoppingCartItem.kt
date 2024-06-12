@@ -12,5 +12,8 @@ data class ShoppingCartItem(
     var productId: String,
     val quantity: Int = 1,
     @ColumnInfo
-    val price: Double
+    val price: Double,
+    @ColumnInfo
+    val title: String,
+    val imageUrl: String
 )
