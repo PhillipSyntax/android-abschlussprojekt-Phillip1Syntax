@@ -17,13 +17,11 @@ class Repository(private val api: MöbelHawiApi, private val database: MöbelHaw
 
     private val _topRated = MutableLiveData<List<Product>>()
 
-     private val _searchResultProducts = MutableLiveData<List<Product>>()
+    private val _searchResultProducts = MutableLiveData<List<Product>>()
 
     private val _categoriesResults = MutableLiveData<List<Product>>()
 
-     val shoppingCartItems = database.itemCartDao.getCartItems()
-
-
+    val shoppingCartItems = database.itemCartDao.getCartItems()
 
 
     val categoryResults: LiveData<List<Product>>
@@ -115,6 +113,15 @@ class Repository(private val api: MöbelHawiApi, private val database: MöbelHaw
         } catch (e: Exception) {
             Log.e("Repo", "Failed to update into databank $e")
         }
+    }
 
+    suspend fun getShoppingCartItemByProductId(productId: String): ShoppingCartItem? {
+        var shoppingCartItem: ShoppingCartItem? = null
+        try {
+           shoppingCartItem = database.itemCartDao.getCartItemByProductId(productId)
+        } catch (e: Exception) {
+            Log.e("Repo", "Failed to get shoppingCartItem by productId from databank $e")
+        }
+        return shoppingCartItem
     }
 }
