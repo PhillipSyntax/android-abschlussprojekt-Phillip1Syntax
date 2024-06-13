@@ -93,14 +93,24 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun addToShoppingCart(product: Product) {
 
-        val shoppingCartItem = product.thumbnails.firstOrNull()?.lastOrNull()
-            ?.let { ShoppingCartItem(0, product.productId, 1, product.price, product.title, it) }
-        viewModelScope.launch {
-            if (shoppingCartItem != null) {
-                repository.insertShoppingCartItem(shoppingCartItem)
-            }
+            val shoppingCartItem = product.thumbnails.firstOrNull()?.lastOrNull()
+                ?.let { ShoppingCartItem(0, product.productId, 1, product.price, product.title, it) }
 
-        }
+            viewModelScope.launch {
+                if (shoppingCartItem != null) {
+                    // Hier erfolgt die Prüfung, ob es bereits im Warenkorb ist
+                    val existingItem = repository.getShoppingCartItemByProductId(product.productId)
+                    if (existingItem != null) {
+                        // Wenn ja, wird es kopiert und die Anzahl erhöht
+                        val updatedItem = existingItem.copy(quantity = existingItem.quantity + 1)
+                        repository.updateItem(updatedItem)
+                    } else {
+                        // Wenn nicht, wird das Produkt neu hinzugefügt
+                        repository.insertShoppingCartItem(shoppingCartItem)
+                    }
+                    calculateTotalPrice()
+                }
+            }
     }
 
     fun deleteItemFromShoppingCart(shoppingCartItem: ShoppingCartItem) {
