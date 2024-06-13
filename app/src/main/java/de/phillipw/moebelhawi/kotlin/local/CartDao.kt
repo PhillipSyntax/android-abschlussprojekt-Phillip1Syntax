@@ -27,4 +27,7 @@ interface CartDao {
     @Query("DELETE FROM shopping_card_item")
     fun clearShoppingCart()
 
+    @Query("SELECT * FROM shopping_card_item WHERE product_id = :productId LIMIT 1")
+    suspend fun getCartItemByProductId(productId: String): ShoppingCartItem?
+
 }
