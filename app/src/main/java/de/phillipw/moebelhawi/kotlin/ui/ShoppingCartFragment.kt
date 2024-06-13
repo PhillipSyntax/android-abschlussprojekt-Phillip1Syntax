@@ -42,5 +42,9 @@ class ShoppingCartFragment : Fragment() {
         viewModel.totalPrice.observe(viewLifecycleOwner) {totalPrice ->
             binding.tvTotalPrice.text = "Total Price: %.2f €".format(totalPrice)
         }
+        binding.btnCheckout.setOnClickListener{
+            val action = ShoppingCartFragmentDirections.cartToCheckout()
+            findNavController().navigate(action)
+        }
     }
 }
