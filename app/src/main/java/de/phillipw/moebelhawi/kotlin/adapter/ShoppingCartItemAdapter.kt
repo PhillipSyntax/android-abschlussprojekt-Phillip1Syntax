@@ -36,7 +36,6 @@ class ShoppingCartItemAdapter (
         holder.binding.btnDeleteFromCart.setOnClickListener {
             itemClick(shoppingCartItem)
         }
-
     }
 
     override fun getItemCount(): Int {
