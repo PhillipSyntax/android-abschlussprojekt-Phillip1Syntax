@@ -30,7 +30,9 @@ class HomeAdapter (
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val product = dataset[position]
 
-        val thumbnailUrl = product.thumbnails.firstOrNull()?.firstOrNull()  // Hier wird eine Liste an Strings angezeigt ?! Er übergibt im Detail alle Images
+        val thumbnailUrl = product.thumbnails.firstOrNull()?.firstOrNull()
+        // Hier wird eine Liste an Strings angezeigt
+        // Er übergibt im Detail aus der ersten Liste, das letzte Bild
 
         if (thumbnailUrl != null){
         holder.binding.ivHomeImage.load(thumbnailUrl)
