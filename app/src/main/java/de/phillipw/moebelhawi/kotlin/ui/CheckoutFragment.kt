@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import de.phillipw.moebelhawi.kotlin.HomeViewModel
+import de.phillipw.moebelhawi.kotlin.adapter.CheckoutAdapter
 import de.phillipw.moebelhawi.kotlin.databinding.FragmentCheckoutBinding
 
 
@@ -18,19 +19,27 @@ class CheckoutFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentCheckoutBinding.inflate(layoutInflater)
+        viewModel.getCartItems()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.cartItems.observe(viewLifecycleOwner) { shoppingCartItem ->
+            viewModel.calculateTotalPrice()
+            binding.rvImageCheckout.adapter = CheckoutAdapter(shoppingCartItem)
+        }
+        viewModel.totalPrice.observe(viewLifecycleOwner) { totalPrice ->
+            binding.tvPriceCheckout.text = "Total Price: %.2f €".format(totalPrice)
 
+
+        }
     }
-
-
 }
