@@ -11,6 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -28,7 +29,7 @@
         android:id="@+id/categoriesLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,8 +83,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/bedroom"
-                     />
+                    android:src="@drawable/bedroom" />
 
                 <TextView
                     android:id="@+id/categorie2"
@@ -113,8 +113,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/bathroom"
-                     />
+                    android:src="@drawable/bathroom" />
 
                 <TextView
                     android:id="@+id/categorie3"
@@ -144,8 +143,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/diningroom"
-                     />
+                    android:src="@drawable/diningroom" />
 
                 <TextView
                     android:id="@+id/categorie4"
@@ -176,22 +174,55 @@
                     android:layout_height="48dp"
                     android:layout_marginEnd="8dp"
                     android:src="@drawable/couch"
-                     />
+                    tools:layout_editor_absoluteX="27dp"
+                    tools:layout_editor_absoluteY="630dp" />
 
                 <TextView
                     android:id="@+id/categorie5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:text="Couch"
                     android:textColor="@android:color/black"
                     android:textSize="22sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/garden" />
+
+                <TextView
+                    android:id="@+id/categorie6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/garden"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
 
     </LinearLayout>
-
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -201,13 +232,15 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="24dp"
         android:visibility="invisible"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInput"
-        app:spanCount="2" />
+        app:spanCount="2">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
