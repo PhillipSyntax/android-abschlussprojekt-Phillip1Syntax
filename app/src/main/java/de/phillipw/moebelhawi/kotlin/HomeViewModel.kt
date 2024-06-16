@@ -99,10 +99,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             viewModelScope.launch {
                 if (shoppingCartItem != null) {
                     // Hier erfolgt die Prüfung, ob es bereits im Warenkorb ist
-                    val existingItem = repository.getShoppingCartItemByProductId(product.productId)
-                    if (existingItem != null) {
+                    val availableInCart = repository.getShoppingCartItemByProductId(product.productId)
+                    if (availableInCart != null) {
                         // Wenn ja, wird es kopiert und die Anzahl erhöht
-                        val updatedItem = existingItem.copy(quantity = existingItem.quantity + 1)
+                        val updatedItem = availableInCart.copy(quantity = availableInCart.quantity + 1)
                         repository.updateItem(updatedItem)
                     } else {
                         // Wenn nicht, wird das Produkt neu hinzugefügt
@@ -141,6 +141,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             totalPrice += item.price * item.quantity
         }
         _totalPrice.postValue(totalPrice)
+    }
+
+    fun deleteAllCartItems() {
+        viewModelScope.launch {
+            repository.deleteAllCartItems()
+        }
+
     }
 }
 
