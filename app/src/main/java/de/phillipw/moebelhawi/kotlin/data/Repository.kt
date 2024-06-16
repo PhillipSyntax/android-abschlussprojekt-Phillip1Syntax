@@ -124,4 +124,12 @@ class Repository(private val api: MöbelHawiApi, private val database: MöbelHaw
         }
         return shoppingCartItem
     }
+
+    suspend fun deleteAllCartItems(){
+        try {
+            database.itemCartDao.deleteAllCartItems()
+        } catch (e:Exception) {
+            Log.e("Repo", "Failed to delete CartItems from ShoppingCart")
+        }
+    }
 }
