@@ -18,7 +18,7 @@
         android:textColor="@color/hawigreen"
         android:textColorHighlight="@color/hawigreen"
         android:textColorLink="@color/hawigreen"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -44,7 +44,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/hawigreen"
-        android:text="Confirm"
+        android:text="@string/confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -56,12 +56,13 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:text="adress Bar"
+        android:text="@string/address_bar"
         android:textColor="@color/hawigreen"
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/til_first_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rv_image_checkout" />
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_first_name"
@@ -75,9 +76,10 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/first_name_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="first Name" />
+            android:hint="First name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -92,9 +94,10 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/second_name_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="second Name" />
+            android:hint="Second name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -109,6 +112,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/address_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="adress" />
@@ -126,6 +130,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/place_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="place" />
@@ -143,52 +148,43 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/zip_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="plz" />
+            android:hint="zip" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/tv_price_checkout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="16dp"
-        android:text="End Price:"
-        android:textSize="22dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_confirm"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_shipping_checkout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="74dp"
-        android:layout_marginEnd="24dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/tv_price_checkout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/tv_sum_checkout" />
 
     <TextView
         android:id="@+id/tv_sum_checkout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:text="sum:"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="subtotal: "
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_plz" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/tv_price_checkout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="256dp"
-        android:layout_marginTop="52dp"
-        android:text="TextView"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="End Price: 0000,00 €"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_confirm"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_plz" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_delivery"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tv_delivery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="delivery: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_sum_checkout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
