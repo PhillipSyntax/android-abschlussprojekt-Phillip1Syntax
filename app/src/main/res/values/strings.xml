@@ -11,4 +11,7 @@
     <string name="topsellers">TopSellers</string>
     <string name="toprated">TopRated</string>
     <string name="checkout">Checkout</string>
+    <string name="address_bar">address Bar</string>
+    <string name="confirm">Confirm</string>
+    <string name="garden">Garden</string>
 </resources>
