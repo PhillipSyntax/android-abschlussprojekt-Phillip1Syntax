@@ -78,6 +78,10 @@ class SearchFragment : Fragment() {
             val action = SearchFragmentDirections.toListFragment("couch")
             findNavController().navigate(action)
         }
+        binding.categorie6.setOnClickListener {
+            val action = SearchFragmentDirections.toListFragment("garden")
+            findNavController().navigate(action)
 
+        }
     }
 }
