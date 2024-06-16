@@ -15,5 +15,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         val navHost = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         binding.bottomNavigationView.setupWithNavController(navHost.navController)
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+            if (navHost.navController.currentDestination!!.id != item.itemId) {
+                navHost.navController.navigate(item.itemId)
+            }
+            false
+        }
     }
 }
