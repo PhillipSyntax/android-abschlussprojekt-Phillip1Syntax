@@ -37,8 +37,8 @@ class ShoppingCartFragment : Fragment() {
                 viewModel.updateCartItem(it)
             }
         }
-        viewModel.subTotalPrice.observe(viewLifecycleOwner) { totalPrice ->
-            binding.tvTotalPrice.text = "Total Price: %.2f €".format(totalPrice)
+        viewModel.subTotalPrice.observe(viewLifecycleOwner) { cartPrice ->
+            binding.tvCartPrice.text = "Cart Price: %.2f €".format(cartPrice)
         }
         binding.btnCheckout.setOnClickListener {
             if (viewModel.cartItems.value.isNullOrEmpty()) {

@@ -81,8 +81,6 @@ class Repository(private val api: MöbelHawiApi, private val database: MöbelHaw
         }
     }
 
-    // Funktion zum Abrufen aller lokalen Notizen aus der Datenbank
-
     fun getShoppingCartItems() {
         try {
             database.itemCartDao.getCartItems()
