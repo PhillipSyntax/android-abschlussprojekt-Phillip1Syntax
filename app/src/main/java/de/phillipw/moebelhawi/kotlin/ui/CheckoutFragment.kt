@@ -37,13 +37,19 @@ class CheckoutFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.cartItems.observe(viewLifecycleOwner) { shoppingCartItem ->
-            viewModel.calculateTotalPrice()
+            viewModel.calculateSubTotalPrice()
+            viewModel.calculateDeliveryPrice(shoppingCartItem)
             binding.rvImageCheckout.adapter = CheckoutAdapter(shoppingCartItem)
+            viewModel.calculateTotalPrice()
         }
-        viewModel.totalPrice.observe(viewLifecycleOwner) { totalPrice ->
-            binding.tvPriceCheckout.text = "Total Price: %.2f €".format(totalPrice)
-
-
+        viewModel.subTotalPrice.observe(viewLifecycleOwner) { subTotalPrice ->
+            binding.tvSumCheckout.text = "subprice: %.2f €".format(subTotalPrice)
+        }
+        viewModel.deliveryCost.observe(viewLifecycleOwner) { deliveryPrice ->
+            binding.tvDelivery.text = "delivery: %.2f €".format(deliveryPrice)
+        }
+        viewModel.totalPriceWithDelivery.observe(viewLifecycleOwner) { deliveryPrice ->
+            binding.tvEndpriceCheckout.text = "Total Price: %.2f €".format(deliveryPrice)
         }
 
         binding.btnConfirm.setOnClickListener {
@@ -52,14 +58,25 @@ class CheckoutFragment : Fragment() {
 
             val correctPlz = "^[0-9]{5}$".toRegex()
 
+            val correctEmail = "^[A-Za-z0-9+_.-]+@(.+)$".toRegex()
+
             val firstName = binding.firstNameEt.text.toString()
             val secondName = binding.secondNameEt.text.toString()
-            val adress = binding.addressEt.text.toString()
+            val address = binding.addressEt.text.toString()
             val place = binding.placeEt.text.toString()
             val zip = binding.zipEt.text.toString()
-            if (firstName.isNotBlank() && firstName.matches(correctName) && secondName.isNotBlank() && secondName.matches(correctName)
-                && adress.isNotBlank()
-                && place.isNotBlank() && zip.isNotBlank() && zip.matches(correctPlz)
+            val email = binding.emailEt.text.toString()
+
+            if (firstName.isNotBlank()
+                && firstName.matches(correctName)
+                && secondName.isNotBlank()
+                && secondName.matches(correctName)
+                && address.isNotBlank()
+                && place.isNotBlank()
+                && zip.isNotBlank()
+                && zip.matches(correctPlz)
+                && email.isNotBlank()
+                && email.matches(correctEmail)
             ) {
                 viewModel.deleteAllCartItems()
                 showAlert()
@@ -76,7 +93,16 @@ class CheckoutFragment : Fragment() {
                         .show()
 
                 } else if (zip.isBlank() || !zip.matches(correctPlz)) {
-                    Toast.makeText(requireContext(), "please fill a coorect zip",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "please fill a correct zip",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if (email.isBlank() || !email.matches(correctEmail)) {
+                    Toast.makeText(
+                        requireContext(),"please check your email adress",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
                 } else {
                     Toast.makeText(requireContext(), "please fill all fields!", Toast.LENGTH_SHORT)
@@ -84,10 +110,13 @@ class CheckoutFragment : Fragment() {
                 }
             }
         }
+        binding.ivBackCheckout.setOnClickListener {
+            backAlert()
+        }
     }
     private fun showAlert() {
         val builder = AlertDialog.Builder(requireContext())
-        //builder.setView(R.layout.) NICHT VERGESSEN ZU IMPLEMENTIERT
+        //builder.setView(R.layout.) Wird noch implementiert
         builder.setTitle("Vielen Dank für Ihre Bestellung!")
         builder.setMessage("Sie erhalten per E-Mail eine Bestätigung.")
 
@@ -100,6 +129,25 @@ class CheckoutFragment : Fragment() {
 //            // Negative Button Click Logic
 //            dialog.dismiss()
 //        }
+        builder.show()
+    }
+
+    private fun backAlert() {
+        val builder = AlertDialog.Builder(requireContext())
+        //builder.setView(R.layout.) Wird noch implementiert
+        builder.setTitle("Möchten Sie wirklich abbrechen ?")
+
+
+        builder.setPositiveButton("JA") { dialog, which ->
+            dialog.dismiss()
+            findNavController().navigateUp()
+
+            // Positive Button Click Logic
+        }
+        builder.setNegativeButton("Abbrechen") { dialog, which ->
+            // Negative Button Click Logic
+            dialog.dismiss()
+        }
         builder.show()
     }
 }
