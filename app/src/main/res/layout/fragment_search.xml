@@ -52,6 +52,7 @@
                     android:id="@+id/image1"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:layout_gravity="center"
                     android:layout_marginEnd="8dp"
                     android:src="@drawable/kitchen" />
 
@@ -59,6 +60,7 @@
                     android:id="@+id/categorie1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:text="Kitchen"
                     android:textColor="@android:color/black"
                     android:textSize="22sp" />
@@ -89,6 +91,7 @@
                     android:id="@+id/categorie2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:text="Bedroom"
                     android:textColor="@android:color/black"
                     android:textSize="22sp" />
@@ -119,6 +122,7 @@
                     android:id="@+id/categorie3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:text="Bathroom"
                     android:textColor="@android:color/black"
                     android:textSize="22sp" />
@@ -149,6 +153,7 @@
                     android:id="@+id/categorie4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:text="Diningroom"
                     android:textColor="@android:color/black"
                     android:textSize="22sp" />
