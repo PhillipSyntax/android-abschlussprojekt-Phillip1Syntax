@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import coil.load
 import de.phillipw.moebelhawi.kotlin.data.models.Product
 import de.phillipw.moebelhawi.kotlin.databinding.FragmentProductsDetailBinding
@@ -41,6 +42,9 @@ class ProductDetailFragment : Fragment() {
                    viewModel.addToShoppingCart(product)
                }
            }
+        }
+        binding.ivBackButton.setOnClickListener {
+            findNavController().navigateUp()
         }
     }
 
