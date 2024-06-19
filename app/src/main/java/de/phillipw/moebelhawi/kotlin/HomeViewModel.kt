@@ -165,6 +165,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 item.title.contains("furniture", ignoreCase = true) -> 30.0
                 item.title.contains("bed", ignoreCase = true) -> 30.0
                 item.title.contains("living room", ignoreCase = true) -> 30.0
+                item.title.contains("bedroom", ignoreCase = true) -> 30.0
                 else -> 5.0
             }
         }
