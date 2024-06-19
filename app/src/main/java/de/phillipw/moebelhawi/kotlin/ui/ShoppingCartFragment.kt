@@ -38,7 +38,7 @@ class ShoppingCartFragment : Fragment() {
             }
         }
         viewModel.subTotalPrice.observe(viewLifecycleOwner) { cartPrice ->
-            binding.tvCartPrice.text = "Cart Price: %.2f €".format(cartPrice)
+            binding.tvCartPrice.text = "Total Price: %.2f €".format(cartPrice)
         }
         binding.btnCheckout.setOnClickListener {
             if (viewModel.cartItems.value.isNullOrEmpty()) {
