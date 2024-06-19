@@ -1,10 +1,10 @@
 package de.phillipw.moebelhawi.kotlin
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -37,13 +37,14 @@ class ProductListFragment : Fragment() {
 
         binding.tvResults.text = args.title
         viewModel.categoryResults.observe(viewLifecycleOwner) {
-            binding.rvProductlist.adapter = ProductListAdapter(it){
+            binding.rvProductlist.adapter = ProductListAdapter(it) {
                 viewModel.setSelectedProduct(it)
                 findNavController().navigate(R.id.productDetailFragment)
             }
         }
+        binding.ivBtnSearch.setOnClickListener {
+            findNavController().navigateUp()
 
+        }
     }
-
-
 }
