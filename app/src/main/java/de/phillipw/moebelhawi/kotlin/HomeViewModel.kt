@@ -11,7 +11,6 @@ import de.phillipw.moebelhawi.kotlin.data.models.ShoppingCartItem
 import de.phillipw.moebelhawi.kotlin.local.MöbelHawiDatabase
 import de.phillipw.moebelhawi.kotlin.remote.MöbelHawiApi
 import kotlinx.coroutines.launch
-import org.jetbrains.annotations.ApiStatus
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -19,15 +18,20 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: Repository = Repository(MöbelHawiApi, database)
 
-    private val _loading = MutableLiveData<ApiStatus>()
+    private val _subTotalPrice = MutableLiveData<Double>()
 
-    private val _totalPrice = MutableLiveData<Double>()
+    val subTotalPrice: LiveData<Double>
+        get() = _subTotalPrice
 
-    val totalPrice: LiveData<Double>
-        get() = _totalPrice
+    private val _deliveryPrice = MutableLiveData<Double>()
 
-    val loading: LiveData<ApiStatus>
-        get() = _loading
+    private val _totalPriceWithDelivery = MutableLiveData<Double>()
+
+    val deliveryCost: LiveData<Double>
+        get() = _deliveryPrice
+
+    val totalPriceWithDelivery: LiveData<Double>
+        get() = _totalPriceWithDelivery
 
     val topSellers = repository.topSellerProducts
 
@@ -93,29 +97,38 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun addToShoppingCart(product: Product) {
 
-            val shoppingCartItem = product.thumbnails.firstOrNull()?.lastOrNull()
-                ?.let { ShoppingCartItem(0, product.productId, 1, product.price, product.title, it) }
+        val shoppingCartItem = product.thumbnails.firstOrNull()?.lastOrNull()
+            ?.let { ShoppingCartItem(0, product.productId, 1, product.price, product.title, it) }
 
-            viewModelScope.launch {
-                if (shoppingCartItem != null) {
-                    // Hier erfolgt die Prüfung, ob es bereits im Warenkorb ist
-                    val availableInCart = repository.getShoppingCartItemByProductId(product.productId)
-                    if (availableInCart != null) {
-                        // Wenn ja, wird es kopiert und die Anzahl erhöht
-                        val updatedItem = availableInCart.copy(quantity = availableInCart.quantity + 1)
-                        repository.updateItem(updatedItem)
-                    } else {
-                        // Wenn nicht, wird das Produkt neu hinzugefügt
-                        repository.insertShoppingCartItem(shoppingCartItem)
-                    }
-                    calculateTotalPrice()
+        viewModelScope.launch {
+            if (shoppingCartItem != null) {
+                // Hier erfolgt die Prüfung, ob es bereits im Warenkorb ist
+                val availableInCart = repository.getShoppingCartItemByProductId(product.productId)
+                if (availableInCart != null) {
+                    // Wenn ja, wird es kopiert und die Anzahl erhöht
+                    val updatedItem = availableInCart.copy(quantity = availableInCart.quantity + 1)
+                    repository.updateItem(updatedItem)
+                } else {
+                    // Wenn nicht, wird das Produkt neu hinzugefügt
+                    repository.insertShoppingCartItem(shoppingCartItem)
                 }
+                calculateSubTotalPrice()
             }
+        }
     }
 
     fun deleteItemFromShoppingCart(shoppingCartItem: ShoppingCartItem) {
         viewModelScope.launch {
-            repository.deleteItem(shoppingCartItem.id)
+            val alreadyInCart =
+                repository.getShoppingCartItemByProductId(shoppingCartItem.productId)
+            if (alreadyInCart != null) {
+                if (alreadyInCart.quantity > 1) {
+                    val reduceItem = alreadyInCart.copy(quantity = alreadyInCart.quantity - 1)
+                    repository.updateItem(reduceItem)
+                } else {
+                    repository.deleteItem(shoppingCartItem.id)
+                }
+            }
             updateCartTotal()
         }
     }
@@ -133,14 +146,41 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun calculateTotalPrice() {
+    fun calculateSubTotalPrice() {
 
         val cartItems = cartItems.value ?: emptyList()
-        var totalPrice = 0.0
+        var subTotalPrice = 0.0
         for (item in cartItems) {
-            totalPrice += item.price * item.quantity
+            subTotalPrice += item.price * item.quantity
         }
-        _totalPrice.postValue(totalPrice)
+        _subTotalPrice.postValue(subTotalPrice)
+    }
+
+    fun calculateDeliveryPrice(items: List<ShoppingCartItem>): Double {
+        var deliveryCost = 0.0
+        items.forEach { item ->
+            deliveryCost += when {
+                item.title.contains("Sofa", ignoreCase = true) -> 30.0
+                item.title.contains("Refrigerator", ignoreCase = true) -> 30.0
+                item.title.contains("furniture", ignoreCase = true) -> 30.0
+                item.title.contains("bed", ignoreCase = true) -> 30.0
+                item.title.contains("living room", ignoreCase = true) -> 30.0
+                else -> 5.0
+            }
+        }
+        return deliveryCost
+    }
+
+    fun calculateTotalPrice() {
+        viewModelScope.launch {
+            val items = cartItems.value ?: emptyList()
+            val total = items.sumOf { it.price * it.quantity }
+            _subTotalPrice.value = total
+
+            val deliveryCost = calculateDeliveryPrice(items)
+            _deliveryPrice.value = deliveryCost
+            _totalPriceWithDelivery.value = total + deliveryCost
+        }
     }
 
     fun deleteAllCartItems() {
@@ -150,5 +190,3 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     }
 }
-
-
